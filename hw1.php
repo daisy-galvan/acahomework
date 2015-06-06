@@ -20,66 +20,40 @@ Everybody loses millions of skin cells every day which fall on the floor and get
 land on all the surfaces in a room. You could say, “That’s me all over.”
 It takes food 7.64 seconds to go from the mouth to the stomach via the esophagus.
 MYSTR;
+$countArray = array('num_numeric' => 0, 'num_string' => 0, 'num_bool' => 0);
 
 $replace= str_replace("\n", " ", $inputString);
-$words = explode(" ", $replace); 
-//print_r($words);
-//print_r(array_count_values($words));
+$replace= str_replace(",", "", $replace); //removes commas, helpful for int evaluation
+$words = explode(" ", $replace); //converts $replace from string into array
 
-$bool=0;
+//setting counter
 $num=0;
 $string=0;
+$bool=0;
 
-if (in_array('true', $words)){
-	$bool++; }
-if (in_array('false', $words)){
-	$bool++; }
-else {return; }
+foreach($words as $element) {
+	if(is_numeric($element)) {
+		++$num;
+		$countArray['num_numeric'] = $num;
+		//echo $num." num: ".$element."\n";
+	}
+	elseif(is_string($element)){
+		if ($element != 'false' && $element != 'true') {
+	 		//using preg_match to ensure that the string is a word
+	 		//will exlude elements that are special characters, ex. " - "
+	 		if (preg_match("/[a-zA-Z]/", $element)){
+	 			++$string;
+	 			$countArray['num_string'] = $string;
+	 			//echo "$string word: $element \n";
+	 		}
+	 	} else{
+	 		++$bool;
+	 		$countArray['num_bool'] = $bool;
+			//echo $bool." bool: $element \n";
+		}
+	}
+}
 
-for ($i=0; $i < count($words) ; $i++) { 
-	 	//echo $words[$i];
-	 	if (in_array([0-9], $words[$i])){
-	 	//($words[$i] != [0-9] && $words[$i] contains [a-z]){
-	 		$num++;
-	 		//$string++;
-	 	}
-	 	// if (is_int($words[$i])){
-	 	// 	$num++;
-	 	// else{return}
-	 	// } 
-	 }
-
-echo $bool;
-echo $num;
-//echo $string;
-//echo $string-$bool; //strings
-echo count($words);
-//$bool = array('false','true');
-// $i=0;
-
-// $words_count=count($words);
-// while ($i < $words_count){
-// 	if ($words[$i] == true) {
-// 		echo 't';
-// 		$i++;
-// 		// $bool=0;
-// 		// ++$bool;
-// 		// echo $bool;}
-//}}
-
-
-// while (in_array('fail' or 'true', $words)){
-// 	++$i;
-// 	echo ($i.' false');
-// if (in_array('true', $words)){
-// 	++$i;
-// 	echo ($i.' true');
-// 	}
-// } else{
-// 	die('fail');
-// }
-
-/** @var array $countArray Result array that contains the counts. 
-You will populate this array with appropriate numbers */
-$countArray = array('num_numeric' => 0, 'num_string' => 0, 'num_bool' => 0);
+echo "Within the string, there are: \n\t$num numbers, $string words, and $bool booleans.\n";
+//print_r($countArray);
 
