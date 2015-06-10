@@ -32,6 +32,7 @@ $string=0;
 $bool=0;
 
 foreach($words as $element) {
+	$element = strtolower($element);
 	if(is_numeric($element)) {
 		++$num;
 		$countArray['num_numeric'] = $num;
@@ -42,6 +43,7 @@ foreach($words as $element) {
 	 		//using preg_match to ensure that the string is a word
 	 		//will exlude elements that are special characters, ex. " - "
 	 		if (preg_match("/[a-zA-Z]/", $element)){
+	 		//could have done "/A-Z/i"  -- i stands for insensitive 
 	 			++$string;
 	 			$countArray['num_string'] = $string;
 	 			//echo "$string word: $element \n";
